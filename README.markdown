@@ -1,6 +1,8 @@
 ammo.js
 =======
 
+For Bullet v3, simply unzip bullet3-3.08 in this root.
+Install emscripten, mingw, cmake, enjoy.
 
 Demos
 -----

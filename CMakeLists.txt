@@ -10,7 +10,8 @@ set(AMMO_FRONT_MATTER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/front-matter.js)
 set(AMMO_HEADER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ammo.h)
 set(AMMO_IDL_FILE ${CMAKE_CURRENT_SOURCE_DIR}/ammo.idl)
 set(AMMO_ONLOAD_FILE ${CMAKE_CURRENT_SOURCE_DIR}/onload.js)
-set(BULLET_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bullet/src/)
+#set(BULLET_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bullet/src/)
+set(BULLET_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bullet3-3.08/src/)
 
 
 set(BULLET_TARGETS BulletCollision BulletDynamics BulletSoftBody LinearMath)
@@ -42,13 +43,14 @@ set(EMCC_ARGS
   -s ALLOW_MEMORY_GROWTH=${ALLOW_MEMORY_GROWTH}
   -s ALLOW_TABLE_GROWTH=1
   -s EXPORTED_FUNCTIONS=["_malloc"]
-  -s EXPORTED_RUNTIME_METHODS=["UTF8ToString"]
   -s EXTRA_EXPORTED_RUNTIME_METHODS=["addFunction"]
   -s EXPORT_NAME="Ammo"
   -s MODULARIZE=1
   -s NO_EXIT_RUNTIME=1
   -s NO_FILESYSTEM=1
   -s TOTAL_MEMORY=${TOTAL_MEMORY})
+
+#  -s EXPORTED_RUNTIME_METHODS=["UTF8ToString"]
 
 if(${CLOSURE})
   # Ignore closure errors about the bullet Node class
@@ -80,7 +82,7 @@ set(EMCC_GLUE_ARGS
 
 #######################################
 project("ammo")
-add_subdirectory(bullet EXCLUDE_FROM_ALL)
+add_subdirectory(bullet3-3.08 EXCLUDE_FROM_ALL)
 
 
 #######################################

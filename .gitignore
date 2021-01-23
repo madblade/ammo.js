@@ -3,6 +3,7 @@ builds/CMakeFiles/
 builds/Makefile
 builds/WebIDLGrammar.pkl
 builds/bullet/
+builds/bullet3-3.08/
 builds/cmake_install.cmake
 builds/glue.cpp
 builds/glue.js

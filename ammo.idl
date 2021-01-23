@@ -1,25 +1,25 @@
 
 // Linear Math
 
-interface btIDebugDraw {
-  void drawLine([Const, Ref] btVector3 from, [Const, Ref] btVector3 to, [Const, Ref] btVector3 color);
-  void drawContactPoint([Const, Ref] btVector3 pointOnB, [Const, Ref] btVector3 normalOnB, float distance, long lifeTime, [Const, Ref] btVector3 color);
-  void reportErrorWarning([Const] DOMString warningString);
-  void draw3dText([Const, Ref] btVector3 location, [Const] DOMString textString);
-  void setDebugMode(long debugMode);
-  long getDebugMode();
-};
+//interface btIDebugDraw {
+//  void drawLine([Const, Ref] btVector3 from, [Const, Ref] btVector3 to, [Const, Ref] btVector3 color);
+//  void drawContactPoint([Const, Ref] btVector3 pointOnB, [Const, Ref] btVector3 normalOnB, float distance, long lifeTime, [Const, Ref] btVector3 color);
+//  void reportErrorWarning([Const] DOMString warningString);
+//  void draw3dText([Const, Ref] btVector3 location, [Const] DOMString textString);
+//  void setDebugMode(long debugMode);
+//  long getDebugMode();
+//};
 
-[JSImplementation="btIDebugDraw"]
-interface DebugDrawer {
-  void DebugDrawer();
-  void drawLine([Const, Ref] btVector3 from, [Const, Ref] btVector3 to, [Const, Ref] btVector3 color);
-  void drawContactPoint([Const, Ref] btVector3 pointOnB, [Const, Ref] btVector3 normalOnB, float distance, long lifeTime, [Const, Ref] btVector3 color);
-  void reportErrorWarning([Const] DOMString warningString);
-  void draw3dText([Const, Ref] btVector3 location, [Const] DOMString textString);
-  void setDebugMode(long debugMode);
-  [Const] long getDebugMode();
-};
+//[JSImplementation="btIDebugDraw"]
+//interface DebugDrawer {
+//  void DebugDrawer();
+//  void drawLine([Const, Ref] btVector3 from, [Const, Ref] btVector3 to, [Const, Ref] btVector3 color);
+//  void drawContactPoint([Const, Ref] btVector3 pointOnB, [Const, Ref] btVector3 normalOnB, float distance, long lifeTime, [Const, Ref] btVector3 color);
+//  void reportErrorWarning([Const] DOMString warningString);
+//  void draw3dText([Const, Ref] btVector3 location, [Const] DOMString textString);
+//  void setDebugMode(long debugMode);
+//  [Const] long getDebugMode();
+//};
 
 interface btVector3 {
   void btVector3();
@@ -63,6 +63,7 @@ interface btQuaternion {
   void btQuaternion(float x, float y, float z, float w);
   void setValue(float x, float y, float z, float w);
   void setEulerZYX(float z, float y, float x);
+  void setEuler(float x, float y, float z);
   void setRotation([Ref] btVector3 axis, float angle);
   void normalize();
   float length2();
@@ -396,13 +397,13 @@ btConvexHullShape implements btCollisionShape;
 
 interface btShapeHull {
   void btShapeHull(btConvexShape shape);
-  boolean buildHull(float margin);
+  boolean buildHull(float margin, optional long highres);
   long numVertices();
   [Const] btVector3 getVertexPointer();
 };
 
 interface btCompoundShape {
-  void btCompoundShape(optional boolean enableDynamicAabbTree);
+  void btCompoundShape(optional boolean enableDynamicAabbTree, optional long initialChildCapacity);
   void addChildShape([Const, Ref] btTransform localTransform, btCollisionShape shape);
   void removeChildShape(btCollisionShape shape);
   void removeChildShapeByIndex(long childShapeindex);
@@ -562,10 +563,10 @@ interface btRigidBody {
   [Const, Ref] btVector3 getLinearFactor();
   void setLinearFactor([Const, Ref] btVector3 linearFactor);
   void applyTorque([Const, Ref] btVector3 torque);
-  void applyLocalTorque([Const, Ref] btVector3 torque);
+  //void applyLocalTorque([Const, Ref] btVector3 torque);
   void applyForce([Const, Ref] btVector3 force, [Const, Ref] btVector3 rel_pos);
   void applyCentralForce([Const, Ref] btVector3 force);
-  void applyCentralLocalForce([Const, Ref] btVector3 force);
+  //void applyCentralLocalForce([Const, Ref] btVector3 force);
   void applyTorqueImpulse([Const, Ref] btVector3 torque);
   void applyImpulse([Const, Ref] btVector3 impulse, [Const, Ref] btVector3 rel_pos);
   void applyCentralImpulse([Const, Ref] btVector3 impulse);
@@ -581,7 +582,7 @@ interface btRigidBody {
   btRigidBody upcast(btCollisionObject colObj);
   void getAabb([Ref] btVector3 aabbMin, [Ref] btVector3 aabbMax);
   void applyGravity();
-  [Const, Ref] btVector3 getGravity();
+  [Value] btVector3 getGravity();
   void setGravity([Const, Ref] btVector3 acceleration);
   [Const] btBroadphaseProxy getBroadphaseProxy();
   void clearForces();
@@ -725,10 +726,10 @@ interface btCollisionWorld {
   void contactPairTest(btCollisionObject colObjA, btCollisionObject colObjB, [Ref] ContactResultCallback resultCallback);
   void contactTest(btCollisionObject colObj, [Ref] ContactResultCallback resultCallback);
   void updateSingleAabb(btCollisionObject colObj);
-  void setDebugDrawer(btIDebugDraw debugDrawer);
-  btIDebugDraw getDebugDrawer();
-  void debugDrawWorld();
-  void debugDrawObject([Const, Ref] btTransform worldTransform, [Const] btCollisionShape shape, [Const, Ref] btVector3 color);
+//  void setDebugDrawer(btIDebugDraw debugDrawer);
+//  btIDebugDraw getDebugDrawer();
+//  void debugDrawWorld();
+//  void debugDrawObject([Const, Ref] btTransform worldTransform, [Const] btCollisionShape shape, [Const, Ref] btVector3 color);
 };
 
 interface btContactSolverInfo {
@@ -856,9 +857,9 @@ interface btActionInterface {
 };
 
 interface btKinematicCharacterController {
-  void btKinematicCharacterController(btPairCachingGhostObject ghostObject, btConvexShape convexShape, float stepHeight, optional long upAxis);
+  void btKinematicCharacterController(btPairCachingGhostObject ghostObject, btConvexShape convexShape, float stepHeight, [Const,Ref] optional btVector3 up);
 
-  void setUpAxis (long axis);
+  void setUp ([Const,Ref] btVector3 up);
   void setWalkDirection ([Const,Ref] btVector3 walkDirection);
   void setVelocityForTimeInterval ([Const,Ref] btVector3 velocity, float timeInterval);
   //void reset ();
@@ -870,8 +871,8 @@ interface btKinematicCharacterController {
   void setMaxJumpHeight (float maxJumpHeight);
   boolean canJump ();
   void jump ();
-  void setGravity (float gravity);
-  float getGravity ();
+  void setGravity ([Const,Ref] btVector3 gravity);
+  [Value] btVector3 getGravity ();
   void setMaxSlope (float slopeRadians);
   float getMaxSlope ();
   btPairCachingGhostObject getGhostObject ();
