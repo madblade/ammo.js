@@ -512,6 +512,7 @@ interface btOverlappingPairCache {
 
 interface btAxisSweep3 {
   void btAxisSweep3([Ref] btVector3 worldAabbMin, [Ref] btVector3 worldAabbMax, optional long maxHandles, optional btOverlappingPairCache pairCache, optional boolean disableRaycastAccelerator);
+  btOverlappingPairCache getOverlappingPairCache();
 };
 
 interface btBroadphaseInterface {
@@ -523,6 +524,7 @@ interface btCollisionConfiguration {
 
 interface btDbvtBroadphase {
   void btDbvtBroadphase();
+  btOverlappingPairCache getOverlappingPairCache();
 };
 
 interface btBroadphaseProxy {
@@ -875,6 +877,8 @@ interface btKinematicCharacterController {
   [Value] btVector3 getGravity ();
   void setMaxSlope (float slopeRadians);
   float getMaxSlope ();
+  void setMaxPenetrationDepth (float maxPen);
+  float getMaxPenetrationDepth ();
   btPairCachingGhostObject getGhostObject ();
   void setUseGhostSweepTest (boolean useGhostObjectSweepTest);
   boolean onGround ();
